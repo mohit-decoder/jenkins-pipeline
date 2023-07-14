@@ -1,0 +1,30 @@
+pipeline {
+    agent {
+        label 'deployer'
+    } 
+        stages {
+            stage ('code-pull') {
+                steps {
+                    git credentialsId: 'key', url: 'https://github.com/mohit-decoder/SnapShot.git'
+                }
+            }
+            stage ('code-build') {
+                steps {
+                    sh 'sudo apt update -y'
+                    sh 'sudo apt install npm -y'
+                    sh 'sudo apt install nodejs -y'
+                    //sh 'sudo npm install -g npm@9.5.0'
+                    sh 'node --version'
+                    sh 'npm --version' 
+                    sh 'sudo apt install build-essential -y'
+                    sh 'which npm' 
+                    sh 'sudo npm install npm -g '
+                    sh 'pm2 stop npm'
+                    sh 'cd  /var/lib/jenkins/workspace/node-js-pipeline'
+                    sh 'sudo npm install -g pm2'
+                    sh 'pm2 start /usr/bin/npm -- start '
+                    sh 'pm2 startup systemd'
+                }
+            }
+        }
+    }

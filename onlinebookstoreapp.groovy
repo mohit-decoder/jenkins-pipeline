@@ -13,6 +13,11 @@ pipeline {
                 sh 'mvn clean package' 
             }
         }
+        stage('testing ') {
+            steps {
+                
+            }
+        }
         stage('artifact to s3') {
             steps {
                  withAWS(credentials: 'ubuntu', region: 'us-west-2') {
